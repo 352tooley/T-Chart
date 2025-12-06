@@ -2,9 +2,6 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
-      - claude/create-web-app-01QWBcwYGfoU5VWeLcmah4DV
   workflow_dispatch:
 
 permissions:
