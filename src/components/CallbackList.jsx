@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { getTCharts, exportToGoogleSheets } from '../utils/storage'
 import './CallbackList.css'
 
-function CallbackList() {
+function CallbackList({ onBack, defaultStore = '', defaultRep = '' }) {
   const [tcharts, setTcharts] = useState([])
-  const [filterStore, setFilterStore] = useState('')
-  const [filterRep, setFilterRep] = useState('')
+  const [filterStore, setFilterStore] = useState(defaultStore)
+  const [filterRep, setFilterRep] = useState(defaultRep)
   const [filterStatus, setFilterStatus] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTChart, setSelectedTChart] = useState(null)
@@ -73,9 +73,16 @@ function CallbackList() {
     <div className="callback-list">
       <div className="list-header">
         <h2>Callback List ({filteredTCharts.length})</h2>
-        <button onClick={handleExport} className="btn-export">
-          Export to CSV
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {onBack && (
+            <button onClick={onBack} className="btn-secondary" style={{ padding: '0.75rem 1.5rem' }}>
+              ← Back
+            </button>
+          )}
+          <button onClick={handleExport} className="btn-export">
+            Export to CSV
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
