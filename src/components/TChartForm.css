@@ -1,0 +1,327 @@
+/* T-Chart Form Styles - Mobile First */
+
+.tchart-form {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.form-section {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.form-section h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.form-section h3 {
+  margin: 1rem 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #555;
+  font-weight: 600;
+}
+
+.form-section h4 {
+  margin: 0.75rem 0 0.5rem 0;
+  font-size: 1rem;
+  color: #666;
+  font-weight: 600;
+}
+
+/* Current vs Proposed sections */
+.current-section {
+  background: #fff9e6;
+  border-left: 4px solid #ffa500;
+}
+
+.proposed-section {
+  background: #f0f9ff;
+  border-left: 4px solid #e20074;
+}
+
+.comparison-section {
+  background: #f5f5f5;
+  border-left: 4px solid #00a99d;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #e20074;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Checkbox groups */
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+/* Form rows (side by side inputs) */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .form-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Plan benefits */
+.plan-benefits {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border: 2px solid #e20074;
+}
+
+.plan-benefits h3 {
+  margin: 0 0 0.75rem 0;
+  color: #e20074;
+  font-size: 1rem;
+}
+
+.plan-benefits ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+.plan-benefits li {
+  padding: 0.25rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.plan-benefits li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #00a99d;
+  font-weight: bold;
+}
+
+/* Home internet info */
+.home-internet-info {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border: 2px solid #00a99d;
+}
+
+.home-internet-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: #00a99d;
+}
+
+.home-internet-info ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+.home-internet-info li {
+  padding: 0.25rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.home-internet-info li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #00a99d;
+  font-weight: bold;
+}
+
+.price-highlight {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #00a99d;
+  margin: 0.5rem 0 0 0;
+}
+
+/* Discounts section */
+.discounts-section {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border: 2px solid #ddd;
+}
+
+.discounts-section h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Pricing breakdown */
+.pricing-breakdown {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border: 2px solid #00a99d;
+}
+
+.price-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.price-line:last-child {
+  border-bottom: none;
+}
+
+.price-line.total {
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+  border-top: 2px solid #00a99d;
+  font-size: 1.1rem;
+  color: #00a99d;
+}
+
+/* Total display */
+.total-display {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #ffa500;
+}
+
+/* Comparison grid */
+.comparison-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.comparison-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+.current-price {
+  color: #ffa500;
+  font-weight: 700;
+}
+
+.proposed-price {
+  color: #e20074;
+  font-weight: 700;
+}
+
+.savings-row {
+  border: 2px solid #00a99d;
+  background: #f0fff0;
+}
+
+.savings {
+  color: #00a99d;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.additional-cost {
+  color: #ff6b6b;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Form actions */
+.form-actions {
+  padding: 1.5rem;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .form-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .form-actions button {
+    min-width: 200px;
+  }
+}
