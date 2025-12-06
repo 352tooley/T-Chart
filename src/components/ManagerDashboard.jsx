@@ -7,12 +7,12 @@ import {
   getAuthenticatedStore,
   setStorePassword
 } from '../utils/auth'
-import { getStoreActivityByPeriod, getEmployeeStoreActivity } from '../utils/notifications'
+import { getStoreActivityByPeriod, getEmployeeStoreActivity, getMultiStoreActivityByPeriod } from '../utils/notifications'
 import { getEmployees } from '../utils/employees'
 import './ManagerDashboard.css'
 
 function ManagerDashboard({ onBack }) {
-  const stores = [
+  const individualStores = [
     'Rufe Snow',
     'Golden Triangle',
     'Clifford',
@@ -23,6 +23,8 @@ function ManagerDashboard({ onBack }) {
     'Stephenville',
     'Granbury'
   ]
+
+  const stores = ['DFW West', ...individualStores]
 
   const [selectedStore, setSelectedStore] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -35,6 +37,9 @@ function ManagerDashboard({ onBack }) {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
+  // For DFW West - multi-store comparison
+  const [selectedStoresFilter, setSelectedStoresFilter] = useState(individualStores) // All stores selected by default
+
   useEffect(() => {
     const authStore = getAuthenticatedStore()
     if (authStore) {
@@ -46,12 +51,20 @@ function ManagerDashboard({ onBack }) {
 
   useEffect(() => {
     if (isAuthenticated && selectedStore) {
-      loadActivities(selectedStore, timePeriod, selectedEmployee)
+      loadActivities(selectedStore, timePeriod, selectedEmployee, selectedStoresFilter)
     }
-  }, [timePeriod, selectedEmployee, isAuthenticated, selectedStore])
+  }, [timePeriod, selectedEmployee, isAuthenticated, selectedStore, selectedStoresFilter])
 
-  const loadActivities = (store, period, employee = null) => {
-    let storeActivities = getStoreActivityByPeriod(store, period)
+  const loadActivities = (store, period, employee = null, storesFilter = []) => {
+    let storeActivities
+
+    // If DFW West, get activities from multiple stores
+    if (store === 'DFW West') {
+      storeActivities = getMultiStoreActivityByPeriod(storesFilter, period)
+    } else {
+      // Individual store
+      storeActivities = getStoreActivityByPeriod(store, period)
+    }
 
     // Filter by specific employee if selected
     if (employee) {
@@ -59,6 +72,26 @@ function ManagerDashboard({ onBack }) {
     }
 
     setActivities(storeActivities.reverse()) // Most recent first
+  }
+
+  const handleStoreFilterToggle = (storeName) => {
+    setSelectedStoresFilter(prev => {
+      if (prev.includes(storeName)) {
+        // Remove store if already selected
+        return prev.filter(s => s !== storeName)
+      } else {
+        // Add store if not selected
+        return [...prev, storeName]
+      }
+    })
+  }
+
+  const handleSelectAllStores = () => {
+    setSelectedStoresFilter(individualStores)
+  }
+
+  const handleDeselectAllStores = () => {
+    setSelectedStoresFilter([])
   }
 
   const handleStoreSelect = (store) => {
@@ -106,12 +139,14 @@ function ManagerDashboard({ onBack }) {
 
   // Calculate stats
   const storeEmployees = getEmployees(selectedStore)
+  const isDFWWest = selectedStore === 'DFW West'
 
   const stats = {
     total: activities.length,
     newCustomers: activities.filter(a => a.customerType === 'New Customer').length,
     existingCustomers: activities.filter(a => a.customerType === 'Existing Customer').length,
-    byEmployee: {}
+    byEmployee: {},
+    byStore: {} // For DFW West view
   }
 
   // Count by employee
@@ -120,7 +155,8 @@ function ManagerDashboard({ onBack }) {
       stats.byEmployee[activity.employee] = {
         total: 0,
         new: 0,
-        existing: 0
+        existing: 0,
+        store: activity.store // Track which store the employee is from
       }
     }
     stats.byEmployee[activity.employee].total++
@@ -130,6 +166,25 @@ function ManagerDashboard({ onBack }) {
       stats.byEmployee[activity.employee].existing++
     }
   })
+
+  // Count by store (for DFW West)
+  if (isDFWWest) {
+    activities.forEach(activity => {
+      if (!stats.byStore[activity.store]) {
+        stats.byStore[activity.store] = {
+          total: 0,
+          new: 0,
+          existing: 0
+        }
+      }
+      stats.byStore[activity.store].total++
+      if (activity.customerType === 'New Customer') {
+        stats.byStore[activity.store].new++
+      } else {
+        stats.byStore[activity.store].existing++
+      }
+    })
+  }
 
   const getPeriodLabel = () => {
     switch(timePeriod) {
@@ -273,6 +328,29 @@ function ManagerDashboard({ onBack }) {
           </button>
         </div>
 
+        {/* DFW West - Store Filter */}
+        {isDFWWest && (
+          <div className="store-filter-section">
+            <h3>Select Stores to Compare</h3>
+            <div className="store-filter-actions">
+              <button onClick={handleSelectAllStores} className="link-button">Select All</button>
+              <button onClick={handleDeselectAllStores} className="link-button">Deselect All</button>
+            </div>
+            <div className="store-filter-grid">
+              {individualStores.map(store => (
+                <label key={store} className="store-filter-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={selectedStoresFilter.includes(store)}
+                    onChange={() => handleStoreFilterToggle(store)}
+                  />
+                  <span>{store}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Store Totals - Always visible */}
         <div className="store-totals-section">
           <h3>Store Totals - {getPeriodLabel()}</h3>
@@ -294,6 +372,29 @@ function ManagerDashboard({ onBack }) {
           </div>
         </div>
 
+        {/* Store Breakdown - DFW West Only */}
+        {isDFWWest && Object.keys(stats.byStore).length > 0 && (
+          <div className="breakdown-section">
+            <h3>Store Comparison - {getPeriodLabel()}</h3>
+            <div className="employee-breakdown-list">
+              {Object.entries(stats.byStore)
+                .sort((a, b) => b[1].total - a[1].total)
+                .map(([storeName, storeStats]) => (
+                  <div key={storeName} className="employee-card">
+                    <div className="employee-card-header">
+                      <span className="employee-name">{storeName}</span>
+                      <span className="employee-total">{storeStats.total} quotes</span>
+                    </div>
+                    <div className="employee-card-stats">
+                      <span className="stat-pill new">{storeStats.new} New</span>
+                      <span className="stat-pill existing">{storeStats.existing} Existing</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+
         {/* Employee Breakdown */}
         {Object.keys(stats.byEmployee).length > 0 && (
           <div className="breakdown-section">
@@ -308,7 +409,12 @@ function ManagerDashboard({ onBack }) {
                     onClick={() => setSelectedEmployee(selectedEmployee === employee ? null : employee)}
                   >
                     <div className="employee-card-header">
-                      <span className="employee-name">{employee}</span>
+                      <span className="employee-name">
+                        {employee}
+                        {isDFWWest && empStats.store && (
+                          <span className="employee-store-tag"> @ {empStats.store}</span>
+                        )}
+                      </span>
                       <span className="employee-total">{empStats.total} quotes</span>
                     </div>
                     <div className="employee-card-stats">

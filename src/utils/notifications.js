@@ -110,6 +110,27 @@ export function getEmployeeStoreActivity(store, employee) {
   )
 }
 
+// Get activity for multiple stores and time period (for DFW West view)
+export function getMultiStoreActivityByPeriod(stores, period) {
+  let activities
+
+  switch(period) {
+    case 'today':
+      activities = getTodayActivity()
+      break
+    case 'week':
+      activities = getThisWeekActivity()
+      break
+    case 'month':
+      activities = getThisMonthActivity()
+      break
+    default:
+      activities = getActivityLog()
+  }
+
+  return activities.filter(activity => stores.includes(activity.store))
+}
+
 // Clear old activity logs (optional - can be called by managers)
 export function clearActivityLog() {
   localStorage.removeItem(ACTIVITY_LOG_KEY)
