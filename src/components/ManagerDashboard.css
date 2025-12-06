@@ -1,0 +1,252 @@
+/* Manager Dashboard Styles */
+
+.manager-dashboard {
+  padding: 2rem 1rem;
+  min-height: calc(100vh - 80px);
+}
+
+.dashboard-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dashboard-header h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  color: #333;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  border-left: 4px solid #e20074;
+}
+
+.stat-card.primary {
+  border-left-color: #e20074;
+}
+
+.stat-card.success {
+  border-left-color: #00a99d;
+}
+
+.stat-card.info {
+  border-left-color: #4a90e2;
+}
+
+.stat-card.warning {
+  border-left-color: #f5a623;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Filter Buttons */
+.filter-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  border-color: #e20074;
+  color: #e20074;
+}
+
+.filter-btn.active {
+  background: #e20074;
+  color: white;
+  border-color: #e20074;
+}
+
+/* Breakdown Sections */
+.breakdown-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.breakdown-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 3px solid #e20074;
+}
+
+.breakdown-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.breakdown-count {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e20074;
+  background: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+}
+
+/* Activity Section */
+.activity-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.activity-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.activity-item {
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 3px solid #ddd;
+}
+
+.activity-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.activity-employee {
+  font-weight: 700;
+  color: #333;
+  font-size: 1rem;
+}
+
+.activity-store {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.activity-type {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.activity-type.new {
+  background: #d4edda;
+  color: #155724;
+}
+
+.activity-type.existing {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.activity-time {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* Settings Section */
+.settings-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.change-password-form {
+  text-align: left;
+}
+
+.change-password-form h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.empty-message {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 2rem;
+}

@@ -3,10 +3,11 @@ import './App.css'
 import QuoteFlow from './components/QuoteFlow'
 import CallbackList from './components/CallbackList'
 import EmployeeManager from './components/EmployeeManager'
+import ManagerDashboard from './components/ManagerDashboard'
 import { getEmployees, addEmployee } from './utils/employees'
 
 function App() {
-  const [currentView, setCurrentView] = useState('start') // 'start', 'quote', 'list', or 'manage'
+  const [currentView, setCurrentView] = useState('start') // 'start', 'quote', 'list', 'manage', or 'dashboard'
   const [selectedStore, setSelectedStore] = useState('')
   const [selectedEmployee, setSelectedEmployee] = useState('')
 
@@ -24,6 +25,10 @@ function App() {
 
   const handleManageEmployees = () => {
     setCurrentView('manage')
+  }
+
+  const handleManagerDashboard = () => {
+    setCurrentView('dashboard')
   }
 
   const handleBackToStart = () => {
@@ -44,6 +49,7 @@ function App() {
             onStartQuote={handleStartQuote}
             onViewCallbacks={handleViewCallbacks}
             onManageEmployees={handleManageEmployees}
+            onManagerDashboard={handleManagerDashboard}
           />
         )}
 
@@ -66,12 +72,16 @@ function App() {
         {currentView === 'manage' && (
           <EmployeeManager onBack={handleBackToStart} />
         )}
+
+        {currentView === 'dashboard' && (
+          <ManagerDashboard onBack={handleBackToStart} />
+        )}
       </main>
     </div>
   )
 }
 
-function StartPage({ onStartQuote, onViewCallbacks, onManageEmployees }) {
+function StartPage({ onStartQuote, onViewCallbacks, onManageEmployees, onManagerDashboard }) {
   const stores = [
     'Rufe Snow',
     'Golden Triangle',
@@ -231,12 +241,18 @@ function StartPage({ onStartQuote, onViewCallbacks, onManageEmployees }) {
           </button>
         </div>
 
-        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+        <div style={{ marginTop: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <button
             onClick={onManageEmployees}
             className="link-button"
           >
             Manage Employees
+          </button>
+          <button
+            onClick={onManagerDashboard}
+            className="link-button"
+          >
+            Manager Dashboard
           </button>
         </div>
       </div>
