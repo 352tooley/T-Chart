@@ -51,6 +51,65 @@ export function getTodayActivity() {
   })
 }
 
+// Get this week's activity (Monday to Sunday)
+export function getThisWeekActivity() {
+  const log = getActivityLog()
+  const now = new Date()
+
+  // Get Monday of this week
+  const day = now.getDay()
+  const diff = now.getDate() - day + (day === 0 ? -6 : 1) // adjust when day is Sunday
+  const monday = new Date(now.setDate(diff))
+  monday.setHours(0, 0, 0, 0)
+
+  return log.filter(activity => {
+    const activityDate = new Date(activity.timestamp)
+    return activityDate >= monday
+  })
+}
+
+// Get this month's activity (1st to today)
+export function getThisMonthActivity() {
+  const log = getActivityLog()
+  const now = new Date()
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
+  firstDay.setHours(0, 0, 0, 0)
+
+  return log.filter(activity => {
+    const activityDate = new Date(activity.timestamp)
+    return activityDate >= firstDay
+  })
+}
+
+// Get activity for a specific store and time period
+export function getStoreActivityByPeriod(store, period) {
+  let activities
+
+  switch(period) {
+    case 'today':
+      activities = getTodayActivity()
+      break
+    case 'week':
+      activities = getThisWeekActivity()
+      break
+    case 'month':
+      activities = getThisMonthActivity()
+      break
+    default:
+      activities = getActivityLog()
+  }
+
+  return activities.filter(activity => activity.store === store)
+}
+
+// Get activity for a specific employee and store
+export function getEmployeeStoreActivity(store, employee) {
+  const log = getActivityLog()
+  return log.filter(activity =>
+    activity.store === store && activity.employee === employee
+  )
+}
+
 // Clear old activity logs (optional - can be called by managers)
 export function clearActivityLog() {
   localStorage.removeItem(ACTIVITY_LOG_KEY)

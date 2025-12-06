@@ -25,6 +25,13 @@
   color: #333;
 }
 
+.store-subtitle {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
 /* Stats Grid */
 .stats-grid {
   display: grid;
@@ -85,6 +92,15 @@
   letter-spacing: 0.5px;
 }
 
+/* Period Filter */
+.period-filter {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
 /* Filter Buttons */
 .filter-btn {
   padding: 0.75rem 1.5rem;
@@ -106,6 +122,22 @@
   background: #e20074;
   color: white;
   border-color: #e20074;
+}
+
+/* Store Totals Section */
+.store-totals-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.store-totals-section h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
 }
 
 /* Breakdown Sections */
@@ -249,4 +281,127 @@
   color: #999;
   font-style: italic;
   padding: 2rem;
+}
+
+/* Employee Breakdown List */
+.employee-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.employee-card {
+  background: white;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.employee-card:hover {
+  border-color: #e20074;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(226,0,116,0.2);
+}
+
+.employee-card.selected {
+  border-color: #e20074;
+  background: #fff5fa;
+  box-shadow: 0 4px 12px rgba(226,0,116,0.3);
+}
+
+.employee-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.employee-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.employee-total {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e20074;
+}
+
+.employee-card-stats {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.stat-pill {
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.stat-pill.new {
+  background: #d4edda;
+  color: #155724;
+}
+
+.stat-pill.existing {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.employee-selected-indicator {
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: #e20074;
+  color: white;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Viewing Employee Banner */
+.viewing-employee-banner {
+  background: #fff5fa;
+  border: 2px solid #e20074;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.viewing-employee-banner strong {
+  color: #e20074;
+  font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (min-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .period-filter {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .filter-btn {
+    width: 100%;
+  }
 }

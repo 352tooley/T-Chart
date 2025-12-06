@@ -1,35 +1,54 @@
-// Manager password utilities
+// Manager password utilities - Store-specific
 
-const MANAGER_PASSWORD_KEY = 'manager_password'
-const DEFAULT_PASSWORD = 'manager123' // Can be changed by managers
+const STORE_PASSWORDS_KEY = 'store_manager_passwords'
+const DEFAULT_PASSWORD = 'manager123'
 
-// Check if password is set, if not use default
-export function getManagerPassword() {
-  const password = localStorage.getItem(MANAGER_PASSWORD_KEY)
-  return password || DEFAULT_PASSWORD
+// Get all store passwords
+function getAllStorePasswords() {
+  const data = localStorage.getItem(STORE_PASSWORDS_KEY)
+  if (!data) return {}
+
+  try {
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error parsing store passwords:', error)
+    return {}
+  }
 }
 
-// Set a new manager password
-export function setManagerPassword(newPassword) {
-  localStorage.setItem(MANAGER_PASSWORD_KEY, newPassword)
+// Get password for a specific store
+export function getStorePassword(store) {
+  const passwords = getAllStorePasswords()
+  return passwords[store] || DEFAULT_PASSWORD
 }
 
-// Validate password
-export function validateManagerPassword(inputPassword) {
-  return inputPassword === getManagerPassword()
+// Set password for a specific store
+export function setStorePassword(store, newPassword) {
+  const passwords = getAllStorePasswords()
+  passwords[store] = newPassword
+  localStorage.setItem(STORE_PASSWORDS_KEY, JSON.stringify(passwords))
 }
 
-// Check if manager is currently authenticated (session-based)
-const SESSION_KEY = 'manager_authenticated'
-
-export function setManagerAuthenticated() {
-  sessionStorage.setItem(SESSION_KEY, 'true')
+// Validate password for a specific store
+export function validateStorePassword(store, inputPassword) {
+  return inputPassword === getStorePassword(store)
 }
 
-export function isManagerAuthenticated() {
-  return sessionStorage.getItem(SESSION_KEY) === 'true'
+// Session management - store which store manager is authenticated for
+const SESSION_STORE_KEY = 'manager_authenticated_store'
+
+export function setManagerAuthenticated(store) {
+  sessionStorage.setItem(SESSION_STORE_KEY, store)
+}
+
+export function getAuthenticatedStore() {
+  return sessionStorage.getItem(SESSION_STORE_KEY)
+}
+
+export function isManagerAuthenticated(store) {
+  return sessionStorage.getItem(SESSION_STORE_KEY) === store
 }
 
 export function logoutManager() {
-  sessionStorage.removeItem(SESSION_KEY)
+  sessionStorage.removeItem(SESSION_STORE_KEY)
 }
